@@ -22,6 +22,8 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Unit test + integration tests
         run: mvn verify
+        env:
+          THEGAMESDB_APIKEY: ${{ secrets.THEGAMESDB_APIKEY }}
       - name: Build with Maven
         run: mvn -B package
       - run: mkdir artifacts && cp api/target/*.jar artifacts

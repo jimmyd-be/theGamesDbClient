@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static be.jimmyd.TheGamesDbClient.BASE_URL;
 
-public class GamesClient {
+class GamesClient {
 
     private final static Logger LOGGER = Logger.getLogger(GamesClient.class.getName());
 

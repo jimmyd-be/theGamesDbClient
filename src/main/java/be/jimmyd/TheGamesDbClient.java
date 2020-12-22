@@ -6,8 +6,10 @@ import be.jimmyd.entities.*;
 import java.util.Collections;
 import java.util.List;
 
-public class TheGamesDbClient
-{
+/**
+ *
+ */
+public class TheGamesDbClient {
     protected final static String BASE_URL = "https://api.thegamesdb.net";
 
     private final DevelopersClient developersClient;

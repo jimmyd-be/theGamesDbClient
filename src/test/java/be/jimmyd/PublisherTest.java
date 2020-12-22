@@ -1,6 +1,5 @@
 package be.jimmyd;
 
-import be.jimmyd.entities.Genre;
 import be.jimmyd.entities.Publisher;
 import org.junit.Test;
 
@@ -9,8 +8,7 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 
 
-public class PublisherTest
-{
+public class PublisherTest {
     private final TheGamesDbClient client;
 
     public PublisherTest() {

@@ -3,7 +3,6 @@ package be.jimmyd.entities;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

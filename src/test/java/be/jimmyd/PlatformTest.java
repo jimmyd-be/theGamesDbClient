@@ -8,11 +8,11 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 
-public class PlatformTest
-{
+public class PlatformTest {
     private final TheGamesDbClient client;
     private final int platformId = 1;
     private final String platformName = "PC";

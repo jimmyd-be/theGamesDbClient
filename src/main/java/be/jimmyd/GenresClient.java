@@ -3,11 +3,9 @@ package be.jimmyd;
 import be.jimmyd.entities.BaseGenreResponse;
 import be.jimmyd.entities.BaseResponse;
 import be.jimmyd.entities.Genre;
-import be.jimmyd.exceptions.ParsingException;
 import kong.unirest.GenericType;
 import kong.unirest.Unirest;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

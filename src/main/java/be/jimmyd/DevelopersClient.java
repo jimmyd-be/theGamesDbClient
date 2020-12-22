@@ -1,6 +1,8 @@
 package be.jimmyd;
 
-import be.jimmyd.entities.*;
+import be.jimmyd.entities.BaseDeveloperResponse;
+import be.jimmyd.entities.BaseResponse;
+import be.jimmyd.entities.Developer;
 import kong.unirest.GenericType;
 import kong.unirest.Unirest;
 

@@ -1,19 +1,17 @@
 package be.jimmyd;
 
 import be.jimmyd.entities.BaseImageResponse;
-import be.jimmyd.entities.Developer;
 import be.jimmyd.entities.Game;
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 
-public class GameTest
-{
+public class GameTest {
     private final TheGamesDbClient client;
 
     public GameTest() {

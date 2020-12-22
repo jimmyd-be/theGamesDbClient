@@ -10,6 +10,7 @@ import kong.unirest.Unirest;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static be.jimmyd.TheGamesDbClient.BASE_URL;
 
@@ -17,16 +18,22 @@ public class GamesClient {
 
     private final static Logger LOGGER = Logger.getLogger(GamesClient.class.getName());
 
+    private final String includes = "boxart,platform";
+    private final String fields = "players,publishers,genres,overview,last_updated,rating,platform,coop,youtube,os,processor,ram,hdd,video,sound";
+
     private final String apiKey;
 
     public GamesClient(String apiKey) {
         this.apiKey = apiKey;
     }
 
-    public BaseImageResponse getGameImages(int id) {
+    public BaseImageResponse getGameImages(List<Integer> id) {
+
+        String ids = id.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+
         return Unirest.get(BASE_URL + "/v1/Games/Images")
                 .queryString("apikey", apiKey)
-                .queryString("games_id", id)
+                .queryString("games_id", ids)
                 .asObject(new GenericType<BaseResponse<BaseImageResponse>>() {
                 })
                 .ifFailure(response -> {
@@ -40,10 +47,14 @@ public class GamesClient {
                 .getData();
     }
 
-    public List<Game> getGameById(int id) {
+    public List<Game> getGameById(List<Integer> id) {
+
+        String ids = id.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+
         return Unirest.get(BASE_URL + "/v1/Games/ByGameID")
                 .queryString("apikey", apiKey)
-                .queryString("id", id)
+                .queryString("id", ids)
+                .queryString("fields", fields)
                 .asObject(new GenericType<BaseResponse<BaseGameResponse>>() {
                 })
                 .ifFailure(response -> {
@@ -62,6 +73,7 @@ public class GamesClient {
         return Unirest.get(BASE_URL + "/v1.1/Games/ByGameName")
                 .queryString("apikey", apiKey)
                 .queryString("name", name)
+                .queryString("fields", fields)
                 .asObject(new GenericType<BaseResponse<BaseGameResponse>>() {
                 })
                 .ifFailure(response -> {
@@ -76,10 +88,14 @@ public class GamesClient {
                 .getGames();
     }
 
-    public List<Game> getGameByPlatform(int platformId) {
+    public List<Game> getGameByPlatform(List<Integer> platformId) {
+
+        String ids = platformId.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+
         return Unirest.get(BASE_URL + "/v1/Games/ByPlatformID")
                 .queryString("apikey", apiKey)
-                .queryString("id", platformId)
+                .queryString("id", ids)
+                .queryString("fields", fields)
                 .asObject(new GenericType<BaseResponse<BaseGameResponse>>() {
                 })
                 .ifFailure(response -> {

@@ -3,6 +3,7 @@ package be.jimmyd;
 
 import be.jimmyd.entities.*;
 
+import java.util.Collections;
 import java.util.List;
 
 public class TheGamesDbClient
@@ -41,6 +42,10 @@ public class TheGamesDbClient
     }
 
     public List<Platform> getPlatformById(int id) {
+        return this.platformsClient.getPlatformById(Collections.singletonList(id));
+    }
+
+    public List<Platform> getPlatformById(List<Integer> id) {
         return this.platformsClient.getPlatformById(id);
     }
 
@@ -49,10 +54,18 @@ public class TheGamesDbClient
     }
 
     public BaseImageResponse getPlatformImageById(int id) {
+        return this.platformsClient.getPlatformImageById(Collections.singletonList(id));
+    }
+
+    public BaseImageResponse getPlatformImageById(List<Integer> id) {
         return this.platformsClient.getPlatformImageById(id);
     }
 
     public List<Game> getGameById(int id) {
+        return this.gamesClient.getGameById(Collections.singletonList(id));
+    }
+
+    public List<Game> getGameById(List<Integer> id) {
         return this.gamesClient.getGameById(id);
     }
 
@@ -61,6 +74,10 @@ public class TheGamesDbClient
     }
 
     public List<Game> getGameByPlatform(int platformId) {
+        return this.gamesClient.getGameByPlatform(Collections.singletonList(platformId));
+    }
+
+    public List<Game> getGameByPlatform(List<Integer> platformId) {
         return this.gamesClient.getGameByPlatform(platformId);
     }
 
@@ -69,6 +86,10 @@ public class TheGamesDbClient
     }
 
     public BaseImageResponse getGameImages(int id) {
+        return this.gamesClient.getGameImages(Collections.singletonList(id));
+    }
+
+    public BaseImageResponse getGameImages(List<Integer> id) {
         return this.gamesClient.getGameImages(id);
     }
 

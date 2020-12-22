@@ -5,6 +5,7 @@ import be.jimmyd.entities.BaseImageResponse;
 import be.jimmyd.entities.Platform;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -35,6 +36,14 @@ public class PlatformTest
     }
 
     @Test
+    public void getPlatformByMultiId() {
+        final List<Platform> result = this.client.getPlatformById(Collections.singletonList(platformId));
+
+        assertFalse(result.isEmpty());
+    }
+
+
+    @Test
     public void getPlatformByName() {
         final List<Platform> result = this.client.getPlatformByName(platformName);
 
@@ -44,6 +53,15 @@ public class PlatformTest
     @Test
     public void getPlatformImageById() {
         final BaseImageResponse result = this.client.getPlatformImageById(platformId);
+
+        assertNotNull(result);
+        assertNotNull(result.getBase_url());
+        assertFalse(result.getImages().isEmpty());
+    }
+
+    @Test
+    public void getPlatformImageByMultiId() {
+        final BaseImageResponse result = this.client.getPlatformImageById(Collections.singletonList(platformId));
 
         assertNotNull(result);
         assertNotNull(result.getBase_url());

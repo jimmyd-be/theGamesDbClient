@@ -1,2 +1,4 @@
 # theGameDbClient
-Java client for The Games Db.
+Java wrapper for the Games DB API.
+
+

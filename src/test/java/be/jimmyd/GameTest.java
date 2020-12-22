@@ -5,6 +5,7 @@ import be.jimmyd.entities.Developer;
 import be.jimmyd.entities.Game;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -31,6 +32,7 @@ public class GameTest
         final List<Game> result = this.client.getGameByName("Battlefield");
 
         assertFalse(result.isEmpty());
+        assertNotNull(result.get(0).getGame_title());
     }
 
     @Test
@@ -47,5 +49,19 @@ public class GameTest
         assertNotNull(result);
         assertNotNull(result.getBase_url());
         assertFalse(result.getImages().isEmpty());
+    }
+
+    @Test
+    public void getGameByMultiId() {
+        final List<Game> result = this.client.getGameById(Collections.singletonList(1));
+
+        assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void getGameByMultiPlatform() {
+        final List<Game> result = this.client.getGameByPlatform(Collections.singletonList(1));
+
+        assertFalse(result.isEmpty());
     }
 }

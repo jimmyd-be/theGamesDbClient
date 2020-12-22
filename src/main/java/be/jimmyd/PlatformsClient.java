@@ -17,6 +17,8 @@ class PlatformsClient {
 
     private final String apiKey;
 
+    private final String fields = "icon,console,controller,developer,manufacturer,media,cpu,memory,graphics,sound,maxcontrollers,display,overview,youtube";
+
     public PlatformsClient(String apiKey) {
         this.apiKey = apiKey;
     }
@@ -24,6 +26,7 @@ class PlatformsClient {
     public List<Platform> getAllPlatforms() {
         return Unirest.get(BASE_URL + "/v1/Platforms")
                 .queryString("apikey", apiKey)
+                .queryString("fields", fields)
                 .asObject(new GenericType<BaseResponse<BasePlatformResponse>>() {
                 })
                 .ifFailure(response -> {
@@ -41,10 +44,14 @@ class PlatformsClient {
                 .collect(Collectors.toList());
     }
 
-    public List<Platform> getPlatformById(int id) {
+    public List<Platform> getPlatformById(List<Integer> id) {
+
+        String ids = id.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+
         return Unirest.get(BASE_URL + "/v1/Platforms/ByPlatformID")
                 .queryString("apikey", apiKey)
-                .queryString("id", id)
+                .queryString("id", ids)
+                .queryString("fields", fields)
                 .asObject(new GenericType<BaseResponse<BasePlatformResponse>>() {
                 })
                 .ifFailure(response -> {
@@ -66,6 +73,7 @@ class PlatformsClient {
         return Unirest.get(BASE_URL + "/v1/Platforms/ByPlatformName")
                 .queryString("apikey", apiKey)
                 .queryString("name", name)
+                .queryString("fields", fields)
                 .asObject(new GenericType<BaseResponse<ListPlatformResponse>>() {
                 })
                 .ifFailure(response -> {
@@ -80,10 +88,13 @@ class PlatformsClient {
                 .getPlatforms();
     }
 
-    public BaseImageResponse getPlatformImageById(int id) {
+    public BaseImageResponse getPlatformImageById(List<Integer> id) {
+
+        String ids = id.stream().map(n -> n.toString()).collect(Collectors.joining(","));
+
         return Unirest.get(BASE_URL + "/v1/Platforms/Images")
                 .queryString("apikey", apiKey)
-                .queryString("platforms_id", id)
+                .queryString("platforms_id", ids)
                 .asObject(new GenericType<BaseResponse<BaseImageResponse>>() {
                 })
                 .ifFailure(response -> {

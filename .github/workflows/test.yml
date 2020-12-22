@@ -3,9 +3,7 @@ name: Tests
 on:
   push:
     branches: 
-      - develop
-      - master
-
+      - '**'
 jobs:
   app:
     runs-on: ubuntu-latest

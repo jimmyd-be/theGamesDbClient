@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  gui:
+  app:
     runs-on: ubuntu-latest
 
     steps:

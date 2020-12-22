@@ -26,7 +26,7 @@ jobs:
           THEGAMESDB_APIKEY: ${{ secrets.THEGAMESDB_APIKEY }}
       - name: Build with Maven
         run: mvn -B package -Dmaven.test.skip=true
-      - run: mkdir artifacts && cp api/target/*.jar artifacts
+      - run: mkdir artifacts && cp target/*.jar artifacts
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:

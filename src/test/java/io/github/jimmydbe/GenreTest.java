@@ -1,6 +1,8 @@
 package io.github.jimmydbe;
 
 import io.github.jimmydbe.entities.Genre;
+import io.github.jimmydbe.exceptions.GamesDbException;
+import io.github.jimmydbe.exceptions.ParsingException;
 import org.junit.Test;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public class GenreTest {
     }
 
     @Test
-    public void getAllGenres() {
+    public void getAllGenres() throws ParsingException, GamesDbException {
         final List<Genre> genres = this.client.getGenres();
 
         assertFalse(genres.isEmpty());

@@ -3,6 +3,8 @@ package io.github.jimmydbe;
 
 import io.github.jimmydbe.entities.BaseImageResponse;
 import io.github.jimmydbe.entities.Platform;
+import io.github.jimmydbe.exceptions.GamesDbException;
+import io.github.jimmydbe.exceptions.ParsingException;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -22,21 +24,21 @@ public class PlatformTest {
     }
 
     @Test
-    public void getAllPlatforms() {
+    public void getAllPlatforms() throws ParsingException, GamesDbException {
         final List<Platform> result = this.client.getAllPlatforms();
 
         assertFalse(result.isEmpty());
     }
 
     @Test
-    public void getPlatformById() {
+    public void getPlatformById() throws ParsingException, GamesDbException {
         final List<Platform> result = this.client.getPlatformById(platformId);
 
         assertFalse(result.isEmpty());
     }
 
     @Test
-    public void getPlatformByMultiId() {
+    public void getPlatformByMultiId() throws ParsingException, GamesDbException {
         final List<Platform> result = this.client.getPlatformById(Collections.singletonList(platformId));
 
         assertFalse(result.isEmpty());
@@ -44,14 +46,14 @@ public class PlatformTest {
 
 
     @Test
-    public void getPlatformByName() {
+    public void getPlatformByName() throws ParsingException, GamesDbException {
         final List<Platform> result = this.client.getPlatformByName(platformName);
 
         assertFalse(result.isEmpty());
     }
 
     @Test
-    public void getPlatformImageById() {
+    public void getPlatformImageById() throws ParsingException, GamesDbException {
         final BaseImageResponse result = this.client.getPlatformImageById(platformId);
 
         assertNotNull(result);
@@ -60,7 +62,7 @@ public class PlatformTest {
     }
 
     @Test
-    public void getPlatformImageByMultiId() {
+    public void getPlatformImageByMultiId() throws ParsingException, GamesDbException {
         final BaseImageResponse result = this.client.getPlatformImageById(Collections.singletonList(platformId));
 
         assertNotNull(result);

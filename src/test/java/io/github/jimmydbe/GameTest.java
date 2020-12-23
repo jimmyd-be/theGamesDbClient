@@ -2,6 +2,8 @@ package io.github.jimmydbe;
 
 import io.github.jimmydbe.entities.BaseImageResponse;
 import io.github.jimmydbe.entities.Game;
+import io.github.jimmydbe.exceptions.GamesDbException;
+import io.github.jimmydbe.exceptions.ParsingException;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -19,14 +21,14 @@ public class GameTest {
     }
 
     @Test
-    public void getGameById() {
+    public void getGameById() throws ParsingException, GamesDbException {
         final List<Game> result = this.client.getGameById(1);
 
         assertFalse(result.isEmpty());
     }
 
     @Test
-    public void getGameByName() {
+    public void getGameByName() throws ParsingException, GamesDbException {
         final List<Game> result = this.client.getGameByName("Battlefield");
 
         assertFalse(result.isEmpty());
@@ -34,14 +36,14 @@ public class GameTest {
     }
 
     @Test
-    public void getGameByPlatform() {
+    public void getGameByPlatform() throws ParsingException, GamesDbException {
         final List<Game> result = this.client.getGameByPlatform(1);
 
         assertFalse(result.isEmpty());
     }
 
     @Test
-    public void getGameImages() {
+    public void getGameImages() throws ParsingException, GamesDbException {
         final BaseImageResponse result = this.client.getGameImages(1);
 
         assertNotNull(result);
@@ -50,14 +52,14 @@ public class GameTest {
     }
 
     @Test
-    public void getGameByMultiId() {
+    public void getGameByMultiId() throws ParsingException, GamesDbException {
         final List<Game> result = this.client.getGameById(Collections.singletonList(1));
 
         assertFalse(result.isEmpty());
     }
 
     @Test
-    public void getGameByMultiPlatform() {
+    public void getGameByMultiPlatform() throws ParsingException, GamesDbException {
         final List<Game> result = this.client.getGameByPlatform(Collections.singletonList(1));
 
         assertFalse(result.isEmpty());

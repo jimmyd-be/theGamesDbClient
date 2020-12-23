@@ -1,40 +1,33 @@
 package io.github.jimmydbe;
 
 import io.github.jimmydbe.entities.*;
+import io.github.jimmydbe.exceptions.GamesDbException;
+import io.github.jimmydbe.exceptions.ParsingException;
 import kong.unirest.GenericType;
+import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-class PlatformsClient {
-
-    private final static Logger LOGGER = Logger.getLogger(PlatformsClient.class.getName());
-
-    private final String apiKey;
+class PlatformsClient extends Client {
 
     private final String fields = "icon,console,controller,developer,manufacturer,media,cpu,memory,graphics,sound,maxcontrollers,display,overview,youtube";
 
-    public PlatformsClient(String apiKey) {
-        this.apiKey = apiKey;
+    protected PlatformsClient(String apiKey) {
+        super(apiKey);
     }
 
-    public List<Platform> getAllPlatforms() {
-        return Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Platforms")
-                .queryString("apikey", apiKey)
+    protected List<Platform> getAllPlatforms() throws ParsingException, GamesDbException {
+        final HttpResponse<BaseResponse<BasePlatformResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Platforms")
+                .queryString("apikey", getApiKey())
                 .queryString("fields", fields)
                 .asObject(new GenericType<BaseResponse<BasePlatformResponse>>() {
-                })
-                .ifFailure(response -> {
-                    LOGGER.log(Level.SEVERE, "Oh No! Status" + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        LOGGER.log(Level.SEVERE, "Parsing Exception: ", e);
-                        LOGGER.log(Level.SEVERE, "Original body: " + e.getOriginalBody());
-                    });
-                })
-                .getBody()
+                });
+
+        checkForErrors(response);
+
+        return response.getBody()
                 .getData()
                 .getPlatforms()
                 .values()
@@ -42,24 +35,20 @@ class PlatformsClient {
                 .collect(Collectors.toList());
     }
 
-    public List<Platform> getPlatformById(List<Integer> id) {
+    protected List<Platform> getPlatformById(List<Integer> id) throws ParsingException, GamesDbException {
 
         String ids = id.stream().map(n -> n.toString()).collect(Collectors.joining(","));
 
-        return Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Platforms/ByPlatformID")
-                .queryString("apikey", apiKey)
+        final HttpResponse<BaseResponse<BasePlatformResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Platforms/ByPlatformID")
+                .queryString("apikey", getApiKey())
                 .queryString("id", ids)
                 .queryString("fields", fields)
                 .asObject(new GenericType<BaseResponse<BasePlatformResponse>>() {
-                })
-                .ifFailure(response -> {
-                    LOGGER.log(Level.SEVERE, "Oh No! Status" + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        LOGGER.log(Level.SEVERE, "Parsing Exception: ", e);
-                        LOGGER.log(Level.SEVERE, "Original body: " + e.getOriginalBody());
-                    });
-                })
-                .getBody()
+                });
+
+        checkForErrors(response);
+
+        return response.getBody()
                 .getData()
                 .getPlatforms()
                 .values()
@@ -67,42 +56,31 @@ class PlatformsClient {
                 .collect(Collectors.toList());
     }
 
-    public List<Platform> getPlatformByName(String name) {
-        return Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Platforms/ByPlatformName")
-                .queryString("apikey", apiKey)
+    protected List<Platform> getPlatformByName(String name) throws ParsingException, GamesDbException {
+        final HttpResponse<BaseResponse<ListPlatformResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Platforms/ByPlatformName")
+                .queryString("apikey", getApiKey())
                 .queryString("name", name)
                 .queryString("fields", fields)
                 .asObject(new GenericType<BaseResponse<ListPlatformResponse>>() {
-                })
-                .ifFailure(response -> {
-                    LOGGER.log(Level.SEVERE, "Oh No! Status" + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        LOGGER.log(Level.SEVERE, "Parsing Exception: ", e);
-                        LOGGER.log(Level.SEVERE, "Original body: " + e.getOriginalBody());
-                    });
-                })
-                .getBody()
+                });
+
+        checkForErrors(response);
+        return response.getBody()
                 .getData()
                 .getPlatforms();
     }
 
-    public BaseImageResponse getPlatformImageById(List<Integer> id) {
+    protected BaseImageResponse getPlatformImageById(List<Integer> id) throws ParsingException, GamesDbException {
 
         String ids = id.stream().map(n -> n.toString()).collect(Collectors.joining(","));
 
-        return Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Platforms/Images")
-                .queryString("apikey", apiKey)
+        final HttpResponse<BaseResponse<BaseImageResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Platforms/Images")
+                .queryString("apikey", getApiKey())
                 .queryString("platforms_id", ids)
                 .asObject(new GenericType<BaseResponse<BaseImageResponse>>() {
-                })
-                .ifFailure(response -> {
-                    LOGGER.log(Level.SEVERE, "Oh No! Status" + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        LOGGER.log(Level.SEVERE, "Parsing Exception: ", e);
-                        LOGGER.log(Level.SEVERE, "Original body: " + e.getOriginalBody());
-                    });
-                })
-                .getBody()
+                });
+        checkForErrors(response);
+        return response.getBody()
                 .getData();
     }
 }

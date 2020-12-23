@@ -3,38 +3,31 @@ package io.github.jimmydbe;
 import io.github.jimmydbe.entities.BaseGenreResponse;
 import io.github.jimmydbe.entities.BaseResponse;
 import io.github.jimmydbe.entities.Genre;
+import io.github.jimmydbe.exceptions.GamesDbException;
+import io.github.jimmydbe.exceptions.ParsingException;
 import kong.unirest.GenericType;
+import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-class GenresClient {
+class GenresClient extends Client {
 
-    private final static Logger LOGGER = Logger.getLogger(GenresClient.class.getName());
-
-    private final String apiKey;
-
-    public GenresClient(String apiKey) {
-        this.apiKey = apiKey;
+    protected GenresClient(String apiKey) {
+        super(apiKey);
     }
 
-    protected List<Genre> getAllGenres() {
+    protected List<Genre> getAllGenres() throws ParsingException, GamesDbException {
 
-        return Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Genres")
-                .queryString("apikey", apiKey)
+        final HttpResponse<BaseResponse<BaseGenreResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Genres")
+                .queryString("apikey", getApiKey())
                 .asObject(new GenericType<BaseResponse<BaseGenreResponse>>() {
-                })
-                .ifFailure(response -> {
-                    LOGGER.log(Level.SEVERE, "Oh No! Status" + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        LOGGER.log(Level.SEVERE, "Parsing Exception: ", e);
-                        LOGGER.log(Level.SEVERE, "Original body: " + e.getOriginalBody());
-                    });
-                })
-                .getBody()
+                });
+
+        checkForErrors(response);
+
+        return response.getBody()
                 .getData()
                 .getGenres()
                 .values()

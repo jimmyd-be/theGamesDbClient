@@ -1,30 +1,27 @@
-name: Publish to maven central
+name: Release
 
+# Run workflow on commits to the `master` branch
 on:
   push:
-    branches: 
-      - 'master'
-jobs:
-  app:
-    runs-on: ubuntu-latest
+    branches:
+      - master
 
+jobs:
+  release:
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Java and Maven
         uses: actions/setup-java@v1
         with:
           java-version: 11
-          server-id: ossrh
-          server-username: ${ secrets.OSSRH_USERNAME }
-          server-password: ${ secrets.OSSRH_PASSWORD }
-      - name: Cache Maven packages
-        uses: actions/cache@v2
+
+      - name: Release Maven package
+        uses: samuelmeuli/action-maven-publish@v1
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Publish to the Maven Central Repository
-        run: mvn --batch-mode deploy -DskipTests=true
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.OSSRH_USERNAME }}
+          nexus_password: ${{ secrets.OSSRH_PASSWORD }}

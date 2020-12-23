@@ -22,9 +22,11 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Unit test + integration tests
         run: mvn verify
+        env:
+          THEGAMESDB_APIKEY: ${{ secrets.THEGAMESDB_APIKEY }}
       - name: Build with Maven
-        run: mvn -B package
-      - run: mkdir artifacts && cp api/target/*.jar artifacts
+        run: mvn -B package -Dmaven.test.skip=true
+      - run: mkdir artifacts && cp target/*.jar artifacts
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:

@@ -12,6 +12,19 @@
     <description>Java wrapper for the Games DB API.</description>
     <url>https://github.com/jimmyd-be/theGameDbClient</url>
 
+    <scm>
+        <connection>scm:git:https://github.com/jimmyd-be/theGamesDbClient.git</connection>
+        <developerConnection>scm:git:https://github.com/jimmyd-be/theGamesDbClient.git</developerConnection>
+        <url>https://github.com/jimmyd-be/theGamesDbClient/tree/master</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>jimmyD-be</id>
+            <name>JimmyD</name>
+        </developer>
+    </developers>
+
     <licenses>
         <license>
             <name>GNU General Public License v3 (GPLv3)</name>

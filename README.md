@@ -1,5 +1,5 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
+![Release](https://github.com/jimmyd-be/theGamesDbClient/workflows/Release/badge.svg?branch=master)
 # theGameDbClient
 Java wrapper for the Games DB API.
 
@@ -14,6 +14,18 @@ String apiKey = "12345789";
 TheGamesDbClient client = new TheGamesDbClient(apiKey);
 /*Now here you can call all the client methods
   to get the info from The Games DB.*/
+```
+
+### Maven
+
+The library can be downloaded from the Maven central repository.
+
+```xml
+<dependency>
+      <groupId>io.github.jimmyd-be</groupId>
+      <artifactId>theGamesDbClient</artifactId>
+      <version>1.0</version>
+</dependency>
 ```
 
 ## Configuration

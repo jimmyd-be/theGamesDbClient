@@ -161,7 +161,7 @@ public class TheGamesDbClient {
      * @throws GamesDbException when the connection to the API is failing
      * @see <a href="https://api.thegamesdb.net/#/Games/GamesByGameID">The Games DB API</a>
      */
-    public List<Game> getGameById(int id) throws ParsingException, GamesDbException {
+    public List<GameDto> getGameById(int id) throws ParsingException, GamesDbException {
         return this.gamesClient.getGameById(Collections.singletonList(id));
     }
 
@@ -174,7 +174,7 @@ public class TheGamesDbClient {
      * @throws GamesDbException when the connection to the API is failing
      * @see <a href="https://api.thegamesdb.net/#/Games/GamesByGameID">The Games DB API</a>
      */
-    public List<Game> getGameById(List<Integer> id) throws ParsingException, GamesDbException {
+    public List<GameDto> getGameById(List<Integer> id) throws ParsingException, GamesDbException {
         return this.gamesClient.getGameById(id);
     }
 
@@ -187,7 +187,7 @@ public class TheGamesDbClient {
      * @throws GamesDbException when the connection to the API is failing
      * @see <a href="https://api.thegamesdb.net/#/Games/GamesByGameName">The Games DB API</a>
      */
-    public List<Game> getGameByName(String name) throws ParsingException, GamesDbException {
+    public List<GameDto> getGameByName(String name) throws ParsingException, GamesDbException {
         return this.gamesClient.getGameByName(name);
     }
 
@@ -200,7 +200,7 @@ public class TheGamesDbClient {
      * @throws GamesDbException when the connection to the API is failing
      * @see <a href="https://api.thegamesdb.net/#/Games/GamesByPlatformID">The Games DB API</a>
      */
-    public List<Game> getGameByPlatform(int platformId) throws ParsingException, GamesDbException {
+    public List<GameDto> getGameByPlatform(int platformId) throws ParsingException, GamesDbException {
         return this.gamesClient.getGameByPlatform(Collections.singletonList(platformId));
     }
 
@@ -213,7 +213,7 @@ public class TheGamesDbClient {
      * @throws GamesDbException when the connection to the API is failing
      * @see <a href="https://api.thegamesdb.net/#/Games/GamesByPlatformID">The Games DB API</a>
      */
-    public List<Game> getGameByPlatform(List<Integer> platformId) throws ParsingException, GamesDbException {
+    public List<GameDto> getGameByPlatform(List<Integer> platformId) throws ParsingException, GamesDbException {
         return this.gamesClient.getGameByPlatform(platformId);
     }
 

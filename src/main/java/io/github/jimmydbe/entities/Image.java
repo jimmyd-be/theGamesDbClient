@@ -8,4 +8,6 @@ public class Image {
     private int id;
     private String type;
     private String filename;
+    private String side;
+    private String resolution;
 }

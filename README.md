@@ -24,7 +24,7 @@ The library can be downloaded from the Maven central repository.
 <dependency>
       <groupId>io.github.jimmyd-be</groupId>
       <artifactId>theGamesDbClient</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
 </dependency>
 ```
 

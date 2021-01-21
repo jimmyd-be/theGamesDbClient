@@ -2,6 +2,7 @@ package io.github.jimmydbe;
 
 import io.github.jimmydbe.entities.BaseImageResponse;
 import io.github.jimmydbe.entities.Game;
+import io.github.jimmydbe.entities.GameDto;
 import io.github.jimmydbe.exceptions.GamesDbException;
 import io.github.jimmydbe.exceptions.ParsingException;
 import org.junit.Test;
@@ -9,8 +10,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 
 public class GameTest {
@@ -22,14 +22,17 @@ public class GameTest {
 
     @Test
     public void getGameById() throws ParsingException, GamesDbException {
-        final List<Game> result = this.client.getGameById(1);
+        final List<GameDto> result = this.client.getGameById(1);
 
         assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+        assertEquals(result.get(0).getPlatform(), result.get(0).getPlatformObject().getId());
+        assertTrue(!result.get(0).getImages().isEmpty());
     }
 
     @Test
     public void getGameByName() throws ParsingException, GamesDbException {
-        final List<Game> result = this.client.getGameByName("Battlefield");
+        final List<GameDto> result = this.client.getGameByName("Battlefield");
 
         assertFalse(result.isEmpty());
         assertNotNull(result.get(0).getGame_title());
@@ -37,7 +40,7 @@ public class GameTest {
 
     @Test
     public void getGameByPlatform() throws ParsingException, GamesDbException {
-        final List<Game> result = this.client.getGameByPlatform(1);
+        final List<GameDto> result = this.client.getGameByPlatform(1);
 
         assertFalse(result.isEmpty());
     }
@@ -53,14 +56,14 @@ public class GameTest {
 
     @Test
     public void getGameByMultiId() throws ParsingException, GamesDbException {
-        final List<Game> result = this.client.getGameById(Collections.singletonList(1));
+        final List<GameDto> result = this.client.getGameById(Collections.singletonList(1));
 
         assertFalse(result.isEmpty());
     }
 
     @Test
     public void getGameByMultiPlatform() throws ParsingException, GamesDbException {
-        final List<Game> result = this.client.getGameByPlatform(Collections.singletonList(1));
+        final List<GameDto> result = this.client.getGameByPlatform(Collections.singletonList(1));
 
         assertFalse(result.isEmpty());
     }

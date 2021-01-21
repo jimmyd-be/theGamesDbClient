@@ -1,9 +1,6 @@
 package io.github.jimmydbe;
 
-import io.github.jimmydbe.entities.BaseGameResponse;
-import io.github.jimmydbe.entities.BaseImageResponse;
-import io.github.jimmydbe.entities.BaseResponse;
-import io.github.jimmydbe.entities.Game;
+import io.github.jimmydbe.entities.*;
 import io.github.jimmydbe.exceptions.GamesDbException;
 import io.github.jimmydbe.exceptions.ParsingException;
 import kong.unirest.GenericType;
@@ -19,6 +16,20 @@ class GamesClient extends Client {
 
     protected GamesClient(String apiKey) {
         super(apiKey);
+    }
+
+    private List<GameDto> convertGameToDto(AdvancedResponse<BaseGameResponse> data) {
+        return data.getData().getGames().stream().map(game -> convert(game,data.getInclude())).collect(Collectors.toList());
+    }
+
+    private GameDto convert(Game game, IncludeResponse include) {
+
+        GameDto dto = new GameDto(game);
+
+        dto.setPlatformObject(include.getPlatform().getData().get(String.valueOf(game.getPlatform())));
+        dto.setImages(include.getBoxart().getData().get(String.valueOf(game.getId())));
+
+        return dto;
     }
 
     protected BaseImageResponse getGameImages(List<Integer> id) throws ParsingException, GamesDbException {
@@ -37,53 +48,50 @@ class GamesClient extends Client {
                 .getData();
     }
 
-    protected List<Game> getGameById(List<Integer> id) throws ParsingException, GamesDbException {
+    protected List<GameDto> getGameById(List<Integer> id) throws ParsingException, GamesDbException {
 
         String ids = id.stream().map(n -> n.toString()).collect(Collectors.joining(","));
 
-        final HttpResponse<BaseResponse<BaseGameResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Games/ByGameID")
+        final HttpResponse<AdvancedResponse<BaseGameResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Games/ByGameID")
                 .queryString("apikey", getApiKey())
                 .queryString("id", ids)
                 .queryString("fields", fields)
-                .asObject(new GenericType<BaseResponse<BaseGameResponse>>() {
+                .queryString("include", "boxart,platform")
+                .asObject(new GenericType<AdvancedResponse<BaseGameResponse>>() {
                 });
 
         checkForErrors(response);
 
-        return response.getBody()
-                .getData()
-                .getGames();
+        return convertGameToDto(response.getBody());
     }
 
-    protected List<Game> getGameByName(String name) throws ParsingException, GamesDbException {
-        final HttpResponse<BaseResponse<BaseGameResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1.1/Games/ByGameName")
+    protected List<GameDto> getGameByName(String name) throws ParsingException, GamesDbException {
+        final HttpResponse<AdvancedResponse<BaseGameResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1.1/Games/ByGameName")
                 .queryString("apikey", getApiKey())
                 .queryString("name", name)
                 .queryString("fields", fields)
-                .asObject(new GenericType<BaseResponse<BaseGameResponse>>() {
+                .queryString("include", "boxart,platform")
+                .asObject(new GenericType<AdvancedResponse<BaseGameResponse>>() {
                 });
         checkForErrors(response);
-        return response.getBody()
-                .getData()
-                .getGames();
+        return convertGameToDto(response.getBody());
     }
 
-    protected List<Game> getGameByPlatform(List<Integer> platformId) throws ParsingException, GamesDbException {
+    protected List<GameDto> getGameByPlatform(List<Integer> platformId) throws ParsingException, GamesDbException {
 
         String ids = platformId.stream().map(n -> n.toString()).collect(Collectors.joining(","));
 
-        final HttpResponse<BaseResponse<BaseGameResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Games/ByPlatformID")
+        final HttpResponse<AdvancedResponse<BaseGameResponse>> response = Unirest.get(TheGamesDbClient.BASE_URL + "/v1/Games/ByPlatformID")
                 .queryString("apikey", getApiKey())
                 .queryString("id", ids)
                 .queryString("fields", fields)
-                .asObject(new GenericType<BaseResponse<BaseGameResponse>>() {
+                .queryString("include", "boxart,platform")
+                .asObject(new GenericType<AdvancedResponse<BaseGameResponse>>() {
                 });
 
         checkForErrors(response);
 
-        return response.getBody()
-                .getData()
-                .getGames();
+        return convertGameToDto(response.getBody());
     }
 
     protected List<Game> getUpdateGame(int lastEditId) throws ParsingException, GamesDbException {

@@ -6,7 +6,7 @@
 
     <groupId>io.github.jimmyd-be</groupId>
     <artifactId>theGamesDbClient</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <name>theGamesDbClient</name>
     <description>Java wrapper for the Games DB API.</description>

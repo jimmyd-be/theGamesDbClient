@@ -28,6 +28,7 @@ class GamesClient extends Client {
 
         dto.setPlatformObject(include.getPlatform().getData().get(String.valueOf(game.getPlatform())));
         dto.setImages(include.getBoxart().getData().get(String.valueOf(game.getId())));
+        dto.setImageBaseurl(include.getBoxart().getBase_url());
 
         return dto;
     }

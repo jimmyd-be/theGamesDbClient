@@ -17,4 +17,7 @@ public class GameDto extends Game{
 
     @Setter
     private List<Image> images;
+
+    @Setter
+    private BaseUrl imageBaseurl;
 }
